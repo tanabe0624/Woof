@@ -111,17 +111,29 @@ fun DogItem(
 ) {
     var expanded by remember { mutableStateOf(false) }//リストアイテムの展開状態を保存
     Card(modifier = modifier){
-        Row(
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(dimensionResource(R.dimen.padding_small))
-        ) {
-            DogIcon(dog.imageResourceId)
-            DogInformation(dog.name, dog.age)
-            Spacer(modifier = Modifier.weight(1f))//行内で唯一重みを持つ子要素であるため、重みを持たない他の子要素の幅が決定された後、行内の残りのスペースを埋める
-            DogItemButton(
-                expanded = expanded,
-                onClick = { /*TODO*/}
+
+        Column() {
+            Row(
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(dimensionResource(R.dimen.padding_small))
+            ) {
+                DogIcon(dog.imageResourceId)
+                DogInformation(dog.name, dog.age)
+                Spacer(modifier = Modifier.weight(1f))//行内で唯一重みを持つ子要素であるため、重みを持たない他の子要素の幅が決定された後、行内の残りのスペースを埋める
+                DogItemButton(
+                    expanded = expanded,
+                    onClick = { /*TODO*/ }
+                )
+            }
+            DogHobby(
+                dog.hobbies,
+                modifier = Modifier.padding(
+                    start = dimensionResource(R.dimen.padding_medium),
+                    top = dimensionResource(R.dimen.padding_small),
+                    end = dimensionResource(R.dimen.padding_medium),
+                    bottom = dimensionResource(R.dimen.padding_medium)
+                )
             )
         }
     }
@@ -222,6 +234,26 @@ fun WoofTopAppBar(modifier: Modifier = Modifier){
         },
         modifier = modifier
     )
+}
+
+@Composable
+fun DogHobby(
+    @StringRes dogHobby: Int,  //リソース ID（R.string.xxx など）は実際には Int 型として定義されている
+    modifier: Modifier = Modifier
+){
+    Column(
+        modifier = modifier
+    ) {
+        Text(
+            text = stringResource(R.string.about),
+            style = MaterialTheme.typography.labelSmall
+        )
+        Text(
+            text = stringResource(dogHobby),
+            style = MaterialTheme.typography.bodyLarge
+        )
+    }
+
 }
 
 /**
