@@ -54,6 +54,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.ui.Alignment
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.getValue
@@ -123,18 +124,21 @@ fun DogItem(
                 Spacer(modifier = Modifier.weight(1f))//行内で唯一重みを持つ子要素であるため、重みを持たない他の子要素の幅が決定された後、行内の残りのスペースを埋める
                 DogItemButton(
                     expanded = expanded,
-                    onClick = { /*TODO*/ }
+                    onClick = { expanded = !expanded } //ボタンが押されたらtrue/falseを切り替え
                 )
             }
-            DogHobby(
-                dog.hobbies,
-                modifier = Modifier.padding(
-                    start = dimensionResource(R.dimen.padding_medium),
-                    top = dimensionResource(R.dimen.padding_small),
-                    end = dimensionResource(R.dimen.padding_medium),
-                    bottom = dimensionResource(R.dimen.padding_medium)
+            if(expanded){
+                DogHobby(
+                    dog.hobbies,
+                    modifier = Modifier.padding(
+                        start = dimensionResource(R.dimen.padding_medium),
+                        top = dimensionResource(R.dimen.padding_small),
+                        end = dimensionResource(R.dimen.padding_medium),
+                        bottom = dimensionResource(R.dimen.padding_medium)
+                    )
                 )
-            )
+            }
+
         }
     }
 
@@ -151,7 +155,7 @@ private fun DogItemButton(
         modifier = modifier
     ){
         Icon(
-            imageVector = Icons.Filled.ExpandMore,
+            imageVector = if (expanded) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore, //Icons.Filled.ExpandLess と Icons.Filled.ExpandMore は、Googleが提供している Material Icons
             contentDescription = stringResource(R.string.expand_button_content_description),
             tint = MaterialTheme.colorScheme.secondary
         )
